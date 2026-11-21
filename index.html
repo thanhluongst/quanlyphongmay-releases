@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="LabL - phần mềm quản lý phòng máy cho giáo viên. Bản miễn phí dùng mãi, không giới hạn số máy.">
+<meta property="og:title" content="LabL - Quản lý phòng máy cho giáo viên">
+<meta property="og:description" content="Trình chiếu, giám sát, khóa máy, gửi file, thu bài... Bản miễn phí dùng mãi. Xem tính năng và tải về.">
+<meta property="og:image" content="https://thanhluongst.github.io/quanlyphongmay-releases/og.png">
+<meta property="og:url" content="https://thanhluongst.github.io/quanlyphongmay-releases/">
+<meta property="og:type" content="website">
+<link rel="icon" href="logo-ntl.png">
+<title>LabL Quản lý phòng máy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+/* Bố cục: dải đầu trang màu thương hiệu, thanh lọc Miễn phí / PRO, các nhóm tính năng dạng lưới thẻ, chân trang liên hệ */
+:root{
+  --cam:#E65632; --do:#BE2328;
+  --bg:#FFFBF9; --mat:#FFFFFF; --vien:#F1E3DD; --chu:#2B2320; --phu:#6E625D;
+  --nhat:#FDEEE8; --xanh:#1E8549; --xanh-nen:#E3F3E9; --pro-chu:#FFFFFF;
+  --tieu-de:#BE2328; --bong:0 2px 14px rgba(120,40,20,.07);
+  --font:"Be Vietnam Pro","Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1C1614; --mat:#261E1B; --vien:#3A2E2A; --chu:#F3ECE9; --phu:#B9ABA5;
+  --nhat:#3A2620; --xanh:#5CCB8A; --xanh-nen:#1E3326; --tieu-de:#FF8A68; --bong:0 2px 14px rgba(0,0,0,.35);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1C1614; --mat:#261E1B; --vien:#3A2E2A; --chu:#F3ECE9; --phu:#B9ABA5;
+  --nhat:#3A2620; --xanh:#5CCB8A; --xanh-nen:#1E3326; --tieu-de:#FF8A68; --bong:0 2px 14px rgba(0,0,0,.35);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--chu);font-family:var(--font);font-size:17px;line-height:1.55;margin:0}
+.khung{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0}
+a{color:inherit}
+
+/* Đầu trang */
+.dau{background:linear-gradient(135deg,var(--cam),var(--do));color:#fff;position:relative;overflow:hidden}
+.dau::after{content:"";position:absolute;right:-120px;top:-160px;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+.dau .khung{padding-block:48px 80px;position:relative;z-index:1}
+.thuonghieu{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.thuonghieu img{width:96px;height:96px;border-radius:22px;background:#fff;padding:7px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.thuonghieu h1{font-size:clamp(52px,9vw,84px);line-height:1;font-weight:800;letter-spacing:-1.5px}
+.thuonghieu p{margin:4px 0 0;font-size:clamp(18px,2.6vw,24px);font-weight:600}
+.loigioi{max-width:640px;font-size:clamp(17px,2.2vw,20px);margin:26px 0 0;opacity:.96}
+.nut-hang{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.nut{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;border:2px solid #fff;transition:transform .15s}
+.nut:hover{transform:translateY(-2px)}
+.nut:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.nut.chinh{background:#fff;color:#BE2328}
+.nut.phu{color:#fff}
+
+/* Dải miễn phí */
+.mienphi{margin-top:-46px;position:relative;z-index:2;background:var(--mat);border-radius:22px;box-shadow:var(--bong);border:1px solid var(--vien);padding:22px 26px;display:flex;gap:20px;align-items:center}
+.mienphi .dau-tick{flex:none;width:58px;height:58px;border-radius:50%;background:var(--xanh);display:flex;align-items:center;justify-content:center}
+.mienphi b{display:block;color:var(--xanh);font-size:21px}
+.mienphi span{color:var(--phu)}
+
+/* Thanh lọc */
+.loc{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:34px 0 8px}
+.loc .nhan{color:var(--phu);font-size:15px;margin-right:4px}
+.loc button{font:inherit;font-size:15px;font-weight:600;padding:8px 16px;border-radius:999px;border:1.5px solid var(--vien);background:var(--mat);color:var(--chu);cursor:pointer}
+.loc button[aria-pressed="true"]{background:var(--cam);border-color:var(--cam);color:#fff}
+.loc button:focus-visible{outline:3px solid var(--cam);outline-offset:2px}
+.dem{color:var(--phu);font-size:15px;margin-left:auto}
+
+/* Nhóm tính năng */
+.nhom{margin-top:44px}
+.nhom-dau{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.bieutuong{flex:none;width:50px;height:50px;border-radius:14px;background:var(--nhat);display:flex;align-items:center;justify-content:center}
+.bieutuong svg{width:30px;height:30px;stroke:var(--cam);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nhom h2{font-size:clamp(22px,3vw,28px);font-weight:800;color:var(--tieu-de)}
+.nhom-dau p{flex-basis:100%;margin:0;color:var(--phu);font-size:16px}
+.luoi{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.the{background:var(--mat);border:1px solid var(--vien);border-radius:16px;padding:16px 18px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.the h3{font-size:17px;font-weight:700;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.the p{margin:0;color:var(--phu);font-size:15px}
+.chip{flex:none;font-size:11.5px;font-weight:800;letter-spacing:.6px;padding:3px 9px;border-radius:999px;white-space:nowrap;margin-top:2px}
+.chip.f{background:var(--xanh-nen);color:var(--xanh)}
+.chip.k{background:var(--do);color:var(--pro-chu)}
+.nhom[hidden],.the[hidden]{display:none!important}
+
+/* Thêm */
+.them{margin-top:52px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.them div{background:var(--nhat);border-radius:16px;padding:18px;font-weight:600;color:var(--tieu-de);display:flex;gap:12px;align-items:center}
+.them svg{flex:none;width:28px;height:28px;stroke:var(--cam);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Kích hoạt */
+.kichhoat{margin-top:52px;background:var(--mat);border:1px solid var(--vien);border-radius:22px;padding:26px}
+.kichhoat h2{font-size:24px;color:var(--tieu-de);margin-bottom:14px}
+.buoc{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:0;padding:0;list-style:none;counter-reset:b}
+.buoc li{counter-increment:b;display:flex;gap:12px;min-width:0}
+.buoc li::before{content:counter(b);flex:none;width:32px;height:32px;border-radius:50%;background:var(--cam);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* Chân trang */
+.chan{margin:52px 0 0;background:linear-gradient(135deg,var(--cam),var(--do));color:#fff}
+.chan .khung{padding-block:30px 40px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.chan img{width:76px;height:76px;border-radius:18px;background:#fff;padding:6px;flex:none}
+.chan .tt{flex:1;min-width:240px}
+.chan b{font-size:20px;display:block}
+.sdt{display:inline-flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}
+.sdt code{font-family:inherit;font-weight:700;font-size:18px;user-select:all}
+.sdt button{font:inherit;font-size:14px;font-weight:700;background:#fff;color:#BE2328;border:0;border-radius:999px;padding:6px 14px;cursor:pointer}
+.sdt button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.ghichu{font-size:14px;opacity:.9;margin-top:4px}
+
+@media (max-width:560px){
+  .dau .khung{padding-block:34px 72px}
+  .thuonghieu img{width:72px;height:72px}
+  .mienphi{padding:18px;gap:14px}
+  .dem{margin-left:0;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){.nut{transition:none}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<header class="dau">
+  <div class="khung">
+    <div class="thuonghieu">
+      <img src="logo-ntl.png" alt="Logo NTL">
+      <div>
+        <h1>LabL</h1>
+        <p>Phần mềm quản lý phòng máy cho giáo viên</p>
+      </div>
+    </div>
+    <p class="loigioi">Một máy giáo viên điều khiển cả phòng máy qua mạng LAN, không cần Internet. Trình chiếu, giám sát, quản lý máy, dạy học và trò chơi ôn bài trong cùng một phần mềm.</p>
+    <div class="nut-hang">
+      <a class="nut chinh" href="https://github.com/thanhluongst/quanlyphongmay-releases/releases/latest" target="_blank" rel="noopener">Tải bản mới nhất</a>
+      <a class="nut phu" href="#lien-he">Liên hệ tác giả</a>
+    </div>
+  </div>
+</header>
+
+<main class="khung">
+  <div class="mienphi">
+    <div class="dau-tick"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <div><b>Bản miễn phí dùng mãi</b><span>Không giới hạn thời gian, không giới hạn số máy. Kích hoạt bản quyền để mở thêm các chức năng có nhãn PRO.</span></div>
+  </div>
+
+  <div class="loc" role="group" aria-label="Lọc tính năng">
+    <span class="nhan">Xem:</span>
+    <button type="button" id="loc-tat" data-loc="all" aria-pressed="true">Tất cả</button>
+    <button type="button" id="loc-free" data-loc="f" aria-pressed="false">Miễn phí</button>
+    <button type="button" id="loc-pro" data-loc="k" aria-pressed="false">PRO</button>
+    <span class="dem" id="dem"></span>
+  </div>
+
+  <!-- Trình chiếu -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8"/><path d="M10 8l4 2-4 2z"/></svg></span>
+      <h2>Trình chiếu &amp; điều khiển</h2>
+      <p>Cho cả lớp cùng xem một màn hình, hỗ trợ từng em ngay trên máy.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="f"><h3>Trình chiếu màn hình giáo viên <span class="chip f">MIỄN PHÍ</span></h3><p>Chọn chiếu toàn màn hình, chỉ một cửa sổ (PowerPoint, Word, Chrome) hoặc màn hình 2 / tivi. Bấm Esc để dừng.</p></div>
+      <div class="the" data-t="f"><h3>Thanh điều khiển nổi <span class="chip f">MIỄN PHÍ</span></h3><p>Xem trước học sinh đang thấy gì, đóng băng hình, đổi nguồn chiếu. Học sinh không thấy thanh này.</p></div>
+      <div class="the" data-t="f"><h3>Chiếu máy học sinh <span class="chip f">MIỄN PHÍ</span></h3><p>Một em thao tác cho cả lớp xem; giáo viên bấm "Hỗ trợ" để dùng chuột, bàn phím giúp em đó.</p></div>
+      <div class="the" data-t="f"><h3>Điều khiển máy học sinh <span class="chip f">MIỄN PHÍ</span></h3><p>Dùng chuột, bàn phím của máy giáo viên; chép chữ rồi Ctrl+V để dán sang máy em.</p></div>
+      <div class="the" data-t="f"><h3>Gửi thông báo, mở trang web, mở bài học <span class="chip f">MIỄN PHÍ</span></h3><p>Mở cùng lúc trên các máy đã chọn, bài học Tin học THCS tự điền tên học sinh.</p></div>
+    </div>
+  </section>
+
+  <!-- Vẽ -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><path d="M4 20l1.2-4.2L16.5 4.5a2.1 2.1 0 013 3L8.2 18.8z"/><path d="M14.5 6.5l3 3"/></svg></span>
+      <h2>Vẽ lên màn hình</h2>
+      <p>Bấm Ctrl+Shift+D để vẽ, khoanh, đánh số ngay trên bài đang giảng.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="f"><h3>Bút và hình vẽ <span class="chip f">MIỄN PHÍ</span></h3><p>Bút, bút dạ quang, đường thẳng, mũi tên, khung, vòng tròn, chữ, số chú thích 1‑2‑3; 7 màu, 3 cỡ nét.</p></div>
+      <div class="the" data-t="f"><h3>Công cụ Chọn <span class="chip f">MIỄN PHÍ</span></h3><p>Kéo nét vẽ, mũi tên, chữ đã vẽ sang chỗ khác; Ctrl+Z để hoàn tác.</p></div>
+      <div class="the" data-t="f"><h3>Học sinh cùng thấy <span class="chip f">MIỄN PHÍ</span></h3><p>Đang trình chiếu thì nét vẽ hiện luôn trên máy học sinh.</p></div>
+      <div class="the" data-t="f"><h3>Chụp màn hình kèm nét vẽ <span class="chip f">MIỄN PHÍ</span></h3><p>Lưu vào thư mục Ảnh và chép sẵn để dán vào Word, Zalo.</p></div>
+    </div>
+  </section>
+
+  <!-- Giám sát -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+      <h2>Giám sát lớp học</h2>
+      <p>Biết em nào đang làm gì, nhắc nhở mà không cần đi từng bàn.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="f"><h3>Xem màn hình cả lớp <span class="chip f">MIỄN PHÍ</span></h3><p>Ảnh thu nhỏ các máy, có chế độ thời gian thực; sơ đồ phòng có màu trạng thái.</p></div>
+      <div class="the" data-t="f"><h3>Che màn hình, khóa máy <span class="chip f">MIỄN PHÍ</span></h3><p>Che màn và khóa phím, chuột để cả lớp chú ý lên bảng.</p></div>
+      <div class="the" data-t="f"><h3>Nhắc im lặng <span class="chip f">MIỄN PHÍ</span></h3><p>Con vật hoạt hình "Suỵt!" hiện trên máy học sinh kèm câu nhắc vui, tự ẩn sau vài giây.</p></div>
+      <div class="the" data-t="k"><h3>Học sinh giơ tay <span class="chip k">PRO</span></h3><p>Em bấm nút ✋ gọi trợ giúp, giáo viên có hàng chờ để xem màn hình và trả lời.</p></div>
+      <div class="the" data-t="k"><h3>Nhật ký sử dụng máy <span class="chip k">PRO</span></h3><p>Ghi đăng nhập, đăng xuất, ứng dụng đã mở; xuất Excel.</p></div>
+    </div>
+  </section>
+
+  <!-- Quản lý máy -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M7 6.3a7 7 0 1010 0"/></svg></span>
+      <h2>Quản lý máy học sinh</h2>
+      <p>Làm việc với cả phòng bằng một lần bấm.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="f"><h3>Bật, tắt, khởi động lại <span class="chip f">MIỄN PHÍ</span></h3><p>Cả phòng hoặc từng máy; bật máy qua mạng (Wake-on-LAN).</p></div>
+      <div class="the" data-t="f"><h3>Gửi file, thu bài <span class="chip f">MIỄN PHÍ</span></h3><p>Phát tài liệu xuống các máy và thu bài làm về máy giáo viên.</p></div>
+      <div class="the" data-t="f"><h3>Cập nhật máy học sinh <span class="chip f">MIỄN PHÍ</span></h3><p>Tự liệt kê máy còn bản cũ, bấm một lần là cập nhật qua mạng.</p></div>
+      <div class="the" data-t="k"><h3>Mở phần mềm, đóng ứng dụng <span class="chip k">PRO</span></h3><p>Mở Word, Excel, PowerPoint, Unikey; đóng tất cả ứng dụng; dọn màn hình.</p></div>
+      <div class="the" data-t="k"><h3>Chặn web, chặn USB <span class="chip k">PRO</span></h3><p>Chặn trang web; USB lưu trữ để chặn, chỉ đọc hoặc cho phép.</p></div>
+      <div class="the" data-t="k"><h3>Cài phần mềm hàng loạt <span class="chip k">PRO</span></h3><p>Cài im lặng file .exe / .msi lên nhiều máy, xem tiến độ từng máy.</p></div>
+      <div class="the" data-t="k"><h3>Dọn dẹp máy <span class="chip k">PRO</span></h3><p>Xóa file tạm, Downloads, Desktop, Thùng rác; đặt lại hình nền.</p></div>
+    </div>
+  </section>
+
+  <!-- Bảo vệ -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+      <h2>Bảo vệ &amp; bảo trì</h2>
+      <p>Giữ phòng máy ổn định suốt năm học.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="k"><h3>Khóa máy trạm <span class="chip k">PRO</span></h3><p>Cấm cài / gỡ phần mềm, khóa Control Panel và Settings, giữ nguyên biểu tượng Desktop.</p></div>
+      <div class="the" data-t="k"><h3>Đóng băng ổ đĩa <span class="chip k">PRO</span></h3><p>Đóng băng / mở băng từ máy giáo viên, dùng được với Deep Freeze đã cài.</p></div>
+      <div class="the" data-t="k"><h3>Kiểm kê phần cứng <span class="chip k">PRO</span></h3><p>Ổ C:, tình trạng ổ cứng, CPU, RAM, chuột, bàn phím; cảnh báo máy có vấn đề.</p></div>
+      <div class="the" data-t="k"><h3>Lịch tự động, cấu hình theo phòng <span class="chip k">PRO</span></h3><p>Hẹn giờ bật / tắt máy; lưu bộ thiết lập và áp dụng cho cả phòng.</p></div>
+      <div class="the" data-t="k"><h3>Khung tên máy, luôn bật Unikey <span class="chip k">PRO</span></h3><p>Góc màn hình ghi tên máy và danh ngôn; máy nào tắt Unikey thì tự mở lại.</p></div>
+    </div>
+  </section>
+
+  <!-- Dạy học -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><path d="M2 8l10-4 10 4-10 4z"/><path d="M6 10v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 8v5"/></svg></span>
+      <h2>Dạy học tương tác</h2>
+      <p>Học sinh làm bài, đăng bài, trả lời ngay trên máy của mình.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="k"><h3>Lớp học LAN <span class="chip k">PRO</span></h3><p>66 bài SGK Tin học 6–9, 4 dự án STEM, 31 bài Giáo dục AI; học sinh tự đăng nhập theo chỗ ngồi.</p></div>
+      <div class="the" data-t="k"><h3>Tiến trình bài học <span class="chip k">PRO</span></h3><p>Khởi động, nghiên cứu, chốt kiến thức, luyện tập; soạn sẵn 75 bài Tin học 6–9.</p></div>
+      <div class="the" data-t="k"><h3>Bảng trưng bày <span class="chip k">PRO</span></h3><p>Học sinh đăng chữ, ảnh, file, link lên bảng chung; thả tim, bình luận; điện thoại vào bằng mã QR.</p></div>
+      <div class="the" data-t="k"><h3>Thẻ trả lời <span class="chip k">PRO</span></h3><p>In thẻ A/B/C/D, học sinh giơ thẻ, chụp ảnh lớp bằng điện thoại hoặc webcam là có kết quả.</p></div>
+      <div class="the" data-t="k"><h3>Bỏ phiếu nhanh <span class="chip k">PRO</span></h3><p>A/B/C/D, Đúng/Sai, mức độ hiểu bài; biểu đồ trực tiếp, chiếu toàn màn hình.</p></div>
+      <div class="the" data-t="k"><h3>Chấm bài thực hành <span class="chip k">PRO</span></h3><p>Tự chấm file Word, Excel theo tiêu chí: công thức, định dạng, biểu đồ, bảng, hình.</p></div>
+    </div>
+  </section>
+
+  <!-- Trò chơi -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9"/><circle cx="17.8" cy="13.8" r=".9"/></svg></span>
+      <h2>Trò chơi học tập</h2>
+      <p>Ôn bài qua trò chơi, cả lớp chơi chung qua mạng LAN.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="k"><h3>Đấu trường đồng đội <span class="chip k">PRO</span></h3><p>Chia 2–4 đội, chọn tướng, trả lời đúng để có vàng, chiếm đền thờ kiến thức.</p></div>
+      <div class="the" data-t="k"><h3>Đấu trường kiến thức <span class="chip k">PRO</span></h3><p>Cả lớp trả lời trắc nghiệm, bảng xếp hạng trực tiếp.</p></div>
+      <div class="the" data-t="k"><h3>Đua xe kiến thức, Đua ghe ngo <span class="chip k">PRO</span></h3><p>Tới rào hoặc cờ phải trả lời đúng mới qua; đua ghe theo lễ hội Ok Om Bok.</p></div>
+      <div class="the" data-t="k"><h3>Vòng quay may mắn <span class="chip k">PRO</span></h3><p>Quay trúng em nào, em đó trả lời câu hỏi hiện trên mọi máy.</p></div>
+      <div class="the" data-t="k"><h3>Ô chữ bí mật, Lật mảnh ghép <span class="chip k">PRO</span></h3><p>Chơi theo nhóm, có đồng hồ và âm thanh.</p></div>
+      <div class="the" data-t="k"><h3>Câu hỏi có sẵn <span class="chip k">PRO</span></h3><p>Bốc từ ngân hàng theo môn, khối, bài, mức độ, hoặc dán đề Azota là chơi ngay.</p></div>
+    </div>
+  </section>
+
+  <!-- Kiểm tra -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
+      <h2>Kiểm tra &amp; ngân hàng câu hỏi</h2>
+      <p>Theo cấu trúc Công văn 7991, làm bài và chấm ngay trên máy.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="k"><h3>Kiểm tra định kỳ <span class="chip k">PRO</span></h3><p>15 phút, giữa kỳ, cuối kỳ: nhiều lựa chọn, Đúng/Sai, trả lời ngắn, tự luận.</p></div>
+      <div class="the" data-t="k"><h3>Nhập đề nhanh <span class="chip k">PRO</span></h3><p>Từ file Word, đề Azota hoặc ngân hàng câu hỏi; xem và chọn từng câu.</p></div>
+      <div class="the" data-t="k"><h3>Tự chấm, giáo viên phê <span class="chip k">PRO</span></h3><p>Tự chấm trắc nghiệm; giáo viên chấm tự luận, ghi lời phê.</p></div>
+      <div class="the" data-t="k"><h3>In đề và xuất điểm <span class="chip k">PRO</span></h3><p>In đề, đáp án ra PDF A4; xuất điểm Excel theo danh sách lớp.</p></div>
+    </div>
+  </section>
+
+  <!-- Quản lý lớp -->
+  <section class="nhom">
+    <div class="nhom-dau">
+      <span class="bieutuong"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.5-3.5 3-5.5 6-5.5s5.5 2 6 5.5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.2c2.5.2 4.2 2 4.5 4.8"/></svg></span>
+      <h2>Quản lý lớp</h2>
+      <p>Danh sách, chỗ ngồi, điểm danh và sổ theo dõi ở cùng một nơi.</p>
+    </div>
+    <div class="luoi">
+      <div class="the" data-t="f"><h3>Danh sách lớp, sơ đồ phòng <span class="chip f">MIỄN PHÍ</span></h3><p>Nhập Excel xuất từ vnEdu; sơ đồ phòng có tên học sinh dưới mỗi máy.</p></div>
+      <div class="the" data-t="f"><h3>Gọi tên ngẫu nhiên, chia nhóm <span class="chip f">MIỄN PHÍ</span></h3><p>Vòng quay tên hiện trên mọi máy; chia nhóm tự động; đồng hồ đếm ngược.</p></div>
+      <div class="the" data-t="k"><h3>Điểm danh tự động <span class="chip k">PRO</span></h3><p>Máy học sinh bật là ghi có mặt hoặc đi trễ; sửa tay vắng có phép.</p></div>
+      <div class="the" data-t="k"><h3>Sổ theo dõi, nề nếp <span class="chip k">PRO</span></h3><p>Chuyên cần, điểm, vi phạm, điểm cộng; cộng / trừ điểm nề nếp bằng chuột phải.</p></div>
+      <div class="the" data-t="k"><h3>Tổng hợp điểm <span class="chip k">PRO</span></h3><p>Gộp trắc nghiệm, trò chơi, thực hành, nề nếp theo trọng số; xuất Excel.</p></div>
+      <div class="the" data-t="k"><h3>Bảng vinh danh <span class="chip k">PRO</span></h3><p>Điểm XP, 8 cấp độ, 12 huy hiệu; chiếu toàn màn hình khen thưởng cả lớp.</p></div>
+    </div>
+  </section>
+
+  <div class="them">
+    <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="11" rx="1.5"/><path d="M7 20h10M12 16v4"/></svg>Chạy trong mạng LAN, không cần Internet</div>
+    <div><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>Mã phòng máy, mã hóa đường truyền</div>
+    <div><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.3-5.7"/><path d="M20 4v4h-4"/></svg>Tự cập nhật bản mới</div>
+    <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z"/></svg>Tiếng Việt / English</div>
+  </div>
+
+  <section class="kichhoat">
+    <h2>Mở các chức năng PRO</h2>
+    <ol class="buoc">
+      <li><div>Bấm vào chức năng có nhãn PRO, phần mềm hiện hướng dẫn kích hoạt.</div></li>
+      <li><div>Liên hệ tác giả qua Zalo để nhận mã kích hoạt cho phòng máy.</div></li>
+      <li><div>Vào Hệ thống → Bản quyền, nhập mã. Máy đã kích hoạt dùng đầy đủ chức năng.</div></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="chan" id="lien-he">
+  <div class="khung">
+    <img src="logo-ntl.png" alt="Logo NTL">
+    <div class="tt">
+      <b>Tác giả: Nguyễn Thanh Lương</b>
+      <div>THCS Nhơn Mỹ, TP. Cần Thơ</div>
+      <div class="sdt">Zalo: <code id="so-zalo">0907 654 137</code><button type="button" id="chep-zalo">Chép số</button></div>
+      <div class="ghichu">LabL, Quản lý phòng máy (Mr. Lương)</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nut = document.querySelectorAll('.loc button');
+  var dem = document.getElementById('dem');
+  function loc(kieu){
+    var n = 0;
+    nut.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.loc === kieu ? 'true' : 'false'); });
+    document.querySelectorAll('.nhom').forEach(function(nh){
+      var con = 0;
+      nh.querySelectorAll('.the').forEach(function(t){
+        var hien = kieu === 'all' || t.dataset.t === kieu;
+        t.hidden = !hien; if (hien) { con++; n++; }
+      });
+      nh.hidden = con === 0;
+    });
+    dem.textContent = n + ' tính năng';
+  }
+  nut.forEach(function(b){ b.addEventListener('click', function(){ loc(b.dataset.loc); }); });
+  loc('all');
+
+  var chep = document.getElementById('chep-zalo');
+  chep.addEventListener('click', function(){
+    var so = '0907654137';
+    function xong(){ chep.textContent = 'Đã chép'; setTimeout(function(){ chep.textContent = 'Chép số'; }, 1800); }
+    function chon(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('so-zalo')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    try { navigator.clipboard.writeText(so).then(xong, chon); } catch(e){ chon(); }
+  });
+})();
+</script>
+
+</body>
+</html>
