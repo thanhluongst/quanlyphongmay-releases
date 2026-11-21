@@ -108,6 +108,36 @@ a{color:inherit}
 .sdt button:focus-visible{outline:3px solid #fff;outline-offset:2px}
 .ghichu{font-size:14px;opacity:.9;margin-top:4px}
 
+/* Hướng dẫn cài đặt */
+.caidat{margin-top:52px;scroll-margin-top:16px}
+.caidat>h2{font-size:clamp(24px,3.4vw,32px);font-weight:800;color:var(--tieu-de)}
+.caidat>.mo{color:var(--phu);margin:8px 0 18px;max-width:780px}
+.can{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:22px}
+.can div{background:var(--nhat);border-radius:14px;padding:12px 16px;font-size:15px;min-width:0}
+.can b{display:block;color:var(--tieu-de);font-size:15px}
+.the-cd{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:-1px;position:relative;z-index:1}
+.the-cd button{font:inherit;font-size:16px;font-weight:700;padding:10px 18px;border:1px solid var(--vien);border-bottom:0;border-radius:14px 14px 0 0;background:var(--nhat);color:var(--chu);cursor:pointer}
+.the-cd button[aria-selected="true"]{background:var(--mat);color:var(--tieu-de)}
+.the-cd button:focus-visible{outline:3px solid var(--cam);outline-offset:2px}
+.bang-cd{background:var(--mat);border:1px solid var(--vien);border-radius:0 18px 18px 18px;padding:22px 24px}
+.bang-cd[hidden]{display:none}
+.bang-cd>p{margin:0 0 14px;color:var(--phu)}
+.cacbuoc{list-style:none;margin:0;padding:0;counter-reset:cb;display:flex;flex-direction:column;gap:16px}
+.cacbuoc>li{counter-increment:cb;display:flex;gap:14px;min-width:0}
+.cacbuoc>li::before{content:counter(cb);flex:none;width:34px;height:34px;border-radius:50%;background:var(--cam);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.cacbuoc>li>div{min-width:0}
+.cacbuoc b.t{display:block;font-size:17px}
+.cacbuoc p{margin:4px 0 0;color:var(--phu);font-size:15.5px}
+.chon{display:inline-block;background:var(--nhat);color:var(--tieu-de);font-weight:700;border-radius:8px;padding:1px 8px;font-size:15px}
+.luuy{margin-top:18px;border-left:4px solid var(--cam);background:var(--nhat);border-radius:0 12px 12px 0;padding:12px 16px;font-size:15px}
+.lenh{margin-top:10px;display:flex;gap:8px;align-items:stretch;flex-wrap:wrap}
+.lenh code{flex:1 1 280px;min-width:0;white-space:normal;overflow-wrap:anywhere;background:#2B2320;color:#FFE9DF;border-radius:10px;padding:10px 12px;font-size:14px;font-family:Consolas,"Cascadia Mono",monospace}
+.lenh button{font:inherit;font-size:14px;font-weight:700;border:0;border-radius:10px;padding:0 14px;background:var(--cam);color:#fff;cursor:pointer;min-height:40px}
+.suco{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.suco div{border:1px solid var(--vien);border-radius:14px;padding:14px 16px;min-width:0}
+.suco b{display:block;margin-bottom:4px}
+.suco p{margin:0;color:var(--phu);font-size:15px}
+
 @media (max-width:560px){
   .dau .khung{padding-block:34px 72px}
   .thuonghieu img{width:72px;height:72px}
@@ -132,6 +162,7 @@ a{color:inherit}
     <p class="loigioi">Một máy giáo viên điều khiển cả phòng máy qua mạng LAN, không cần Internet. Trình chiếu, giám sát, quản lý máy, dạy học và trò chơi ôn bài trong cùng một phần mềm.</p>
     <div class="nut-hang">
       <a class="nut chinh" href="https://github.com/thanhluongst/quanlyphongmay-releases/releases/latest" target="_blank" rel="noopener">Tải bản mới nhất</a>
+      <a class="nut phu" href="#cai-dat">Hướng dẫn cài đặt</a>
       <a class="nut phu" href="#lien-he">Liên hệ tác giả</a>
     </div>
   </div>
@@ -305,6 +336,65 @@ a{color:inherit}
     <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z"/></svg>Tiếng Việt / English</div>
   </div>
 
+  <section class="caidat" id="cai-dat">
+    <h2>Hướng dẫn cài đặt</h2>
+    <p class="mo">Cả máy giáo viên và máy học sinh dùng <b>cùng một bộ cài</b>. Khi cài, chỉ cần chọn đúng loại máy. Mỗi máy cài một lần; các lần sau phần mềm tự cập nhật.</p>
+    <div class="can">
+      <div><b>Hệ điều hành</b>Windows 10 hoặc 11, bản 64-bit</div>
+      <div><b>Mạng</b>Các máy chung một mạng LAN (dây hoặc Wi-Fi). Không cần Internet khi dạy.</div>
+      <div><b>Quyền cài</b>Tài khoản quản trị (Administrator) trên mỗi máy</div>
+      <div><b>Bộ cài</b>Bấm <a href="https://github.com/thanhluongst/quanlyphongmay-releases/releases/latest" target="_blank" rel="noopener">Tải bản mới nhất</a>, tải file <code>LabL-Setup-….exe</code></div>
+    </div>
+
+    <div class="the-cd" role="tablist" aria-label="Loại máy">
+      <button type="button" role="tab" id="t-gv" aria-controls="b-gv" aria-selected="true">Máy giáo viên</button>
+      <button type="button" role="tab" id="t-hs" aria-controls="b-hs" aria-selected="false" tabindex="-1">Máy học sinh</button>
+      <button type="button" role="tab" id="t-sc" aria-controls="b-sc" aria-selected="false" tabindex="-1">Cập nhật &amp; xử lý sự cố</button>
+    </div>
+
+    <div class="bang-cd" role="tabpanel" id="b-gv" aria-labelledby="t-gv">
+      <p>Cài trên máy của giáo viên (máy chủ điều khiển cả phòng).</p>
+      <ol class="cacbuoc">
+        <li><div><b class="t">Chạy bộ cài</b><p>Bấm đúp file <code>LabL-Setup-….exe</code>. Nếu Windows hiện “Windows đã bảo vệ máy tính”, bấm <span class="chon">Thông tin thêm</span> rồi <span class="chon">Vẫn chạy</span>.</p></div></li>
+        <li><div><b class="t">Chọn loại cài đặt</b><p>Chọn <span class="chon">Máy chủ (giáo viên) – chỉ cài phần mềm quản lý</span>, bấm Tiếp.</p></div></li>
+        <li><div><b class="t">Đặt mã phòng máy</b><p>Ở trang <span class="chon">Mã phòng máy</span>, tự đặt một mã (ví dụ <code>NMY7-K3QP-8XWD</code>) và <b>ghi lại</b> để nhập cho máy học sinh. Máy học sinh chỉ nghe lệnh của máy giáo viên có đúng mã này, học sinh tự cài phần mềm giáo viên cũng không điều khiển được phòng máy.</p></div></li>
+        <li><div><b class="t">Mở phần mềm</b><p>Cài xong, mở <b>LabL</b> từ biểu tượng trên màn hình. Địa chỉ <b>IP máy chủ</b> hiện trên thanh tiêu đề cửa sổ – cần khi máy học sinh dùng Wi-Fi.</p></div></li>
+      </ol>
+      <div class="luuy">Bộ cài tự mở tường lửa Windows cho phần mềm. Muốn đổi mã phòng sau này: thẻ <span class="chon">Hệ thống</span> → <span class="chon">Mã phòng máy</span> (máy học sinh đang kết nối được gửi mã mới, dùng từ lần kết nối sau).</div>
+    </div>
+
+    <div class="bang-cd" role="tabpanel" id="b-hs" aria-labelledby="t-hs" hidden>
+      <p>Cài trên từng máy học sinh. Phần cài trên máy học sinh (Agent) chạy ngầm, tự khởi động cùng Windows, học sinh không cần mở gì.</p>
+      <ol class="cacbuoc">
+        <li><div><b class="t">Chạy bộ cài</b><p>Chép file <code>LabL-Setup-….exe</code> sang máy học sinh (USB hoặc thư mục chia sẻ), bấm đúp để cài.</p></div></li>
+        <li><div><b class="t">Chọn loại cài đặt</b><p>Chọn <span class="chon">Máy trạm (học sinh) – chỉ cài Agent</span>, bấm Tiếp.</p></div></li>
+        <li><div><b class="t">Địa chỉ máy giáo viên</b><p><b>Mạng dây cùng phòng:</b> để trống, máy học sinh tự tìm máy giáo viên.<br><b>Wi-Fi hoặc khác mạng:</b> nhập IP máy giáo viên (xem trên thanh tiêu đề LabL). Có thể nhập nhiều IP, cách nhau bằng dấu phẩy.</p></div></li>
+        <li><div><b class="t">Nhập mã phòng máy</b><p>Nhập <b>đúng</b> mã phòng đã đặt ở máy giáo viên.</p></div></li>
+        <li><div><b class="t">Xong</b><p>Bấm Cài đặt. Vài giây sau, máy học sinh hiện trong danh sách máy trên phần mềm của giáo viên. Lần cài lại hay cập nhật sau, IP và mã phòng tự điền sẵn.</p></div></li>
+      </ol>
+      <div class="luuy"><b>Cài nhanh nhiều máy (không cần bấm từng bước):</b> mở Command Prompt bằng quyền quản trị trên máy học sinh, chạy lệnh dưới đây (đổi tên file, IP và mã phòng cho đúng; bỏ phần <code>/SERVER=…</code> nếu dùng mạng dây cùng phòng).
+        <div class="lenh"><code id="lenh-cai">LabL-Setup-2.0.55.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /TYPE=agent /SERVER=192.168.1.10 /ROOM=NMY7-K3QP-8XWD</code><button type="button" id="chep-lenh">Chép lệnh</button></div>
+      </div>
+      <div class="luuy">Máy có phần mềm đóng băng ổ đĩa: mở băng trước khi cài, cài xong đóng băng lại – nếu không, khởi động lại máy sẽ mất phần mềm vừa cài.</div>
+    </div>
+
+    <div class="bang-cd" role="tabpanel" id="b-sc" aria-labelledby="t-sc" hidden>
+      <ol class="cacbuoc">
+        <li><div><b class="t">Cập nhật máy giáo viên</b><p>LabL tự báo khi có bản mới. Có thể kiểm tra tay: thẻ <span class="chon">Hệ thống</span> → <span class="chon">Cập nhật phần mềm</span>.</p></div></li>
+        <li><div><b class="t">Cập nhật máy học sinh</b><p>Không cần cài lại từng máy: máy học sinh còn bản cũ được tự cập nhật khi kết nối với máy giáo viên. Cập nhật ngay cho các máy đang chọn: thẻ <span class="chon">Hệ thống</span> → <span class="chon">Cập nhật máy con</span>.</p></div></li>
+      </ol>
+      <h3 style="margin:22px 0 10px;font-size:19px;color:var(--tieu-de)">Máy học sinh không hiện trên máy giáo viên?</h3>
+      <div class="suco">
+        <div><b>Kiểm tra mạng</b><p>Hai máy phải chung một mạng. Dùng Wi-Fi hoặc mạng khác phòng: cài lại máy học sinh và nhập IP máy giáo viên.</p></div>
+        <div><b>Tường lửa, phần mềm diệt virus</b><p>Cho phép LabL, hoặc mở cổng <code>UDP 47100</code> (tự tìm máy) và <code>TCP 47101</code> (kết nối) trên máy giáo viên.</p></div>
+        <div><b>Mã phòng không khớp</b><p>Máy học sinh có mã khác sẽ không nghe lệnh. Cài lại bộ cài trên máy đó và nhập đúng mã phòng.</p></div>
+        <div><b>Máy học sinh tắt khi đổi mã</b><p>Máy đang tắt không nhận được mã mới. Khi bật lại, cài lại bộ cài trên máy đó và nhập mã mới.</p></div>
+        <div><b>Gỡ cài đặt</b><p>Cài đặt Windows → Ứng dụng → <b>LabL - Quản lý phòng máy</b> → Gỡ cài đặt.</p></div>
+        <div><b>Cần hỗ trợ</b><p>Nhắn Zalo tác giả (cuối trang), gửi kèm ảnh chụp màn hình lỗi.</p></div>
+      </div>
+    </div>
+  </section>
+
   <section class="kichhoat">
     <h2>Mở các chức năng PRO</h2>
     <ol class="buoc">
@@ -346,6 +436,28 @@ a{color:inherit}
   }
   nut.forEach(function(b){ b.addEventListener('click', function(){ loc(b.dataset.loc); }); });
   loc('all');
+
+  // Hướng dẫn cài đặt: chuyển thẻ Máy giáo viên / Máy học sinh / Sự cố
+  var the = Array.prototype.slice.call(document.querySelectorAll('.the-cd [role="tab"]'));
+  function mo(t, lay){
+    the.forEach(function(x){ var on = x === t; x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+    if (lay) t.focus();
+  }
+  the.forEach(function(t, i){
+    t.addEventListener('click', function(){ mo(t); });
+    t.addEventListener('keydown', function(e){
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : -9;
+      if (j !== -9) { e.preventDefault(); mo(the[(j + the.length) % the.length], true); }
+    });
+  });
+  var cl = document.getElementById('chep-lenh');
+  cl.addEventListener('click', function(){
+    var txt = document.getElementById('lenh-cai').textContent;
+    function xong(){ cl.textContent = 'Đã chép'; setTimeout(function(){ cl.textContent = 'Chép lệnh'; }, 1800); }
+    function chon(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('lenh-cai')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+    try { navigator.clipboard.writeText(txt).then(xong, chon); } catch(e){ chon(); }
+  });
 
   var chep = document.getElementById('chep-zalo');
   chep.addEventListener('click', function(){
